@@ -20,6 +20,7 @@
 @property (weak, nonatomic) id <FlipsideViewControllerDelegate> delegate;
 @property (weak, nonatomic) IBOutlet UIView *tableContainerView;
 @property(retain) NSIndexPath* lastIndexPath;
+@property(weak,nonatomic) NSArray *hotels;
 
 - (IBAction)done:(id)sender;
 

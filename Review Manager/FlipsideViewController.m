@@ -13,10 +13,11 @@
 @interface FlipsideViewController ()
 
 @end
-NSArray *hotels;
+
 @implementation FlipsideViewController
 @synthesize tableContainerView;
 @synthesize lastIndexPath;
+@synthesize hotels;
 
 - (void)awakeFromNib
 {
@@ -30,17 +31,11 @@ NSArray *hotels;
 	// Do any additional setup after loading the view, typically from a nib.
     tableContainerView.layer.masksToBounds=YES;
     tableContainerView.layer.cornerRadius= 10.0f;
-    [self downloadHotelsFromServer];
+    
     
 }
 
--(void) downloadHotelsFromServer{
-    NSURL *url = [NSURL URLWithString:@"http://enroyed.com/projects/iOS/questions.txt"];
-    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
-    [request setDelegate:self];
-    [request startAsynchronous];
-    
-}
+
 
 - (void)viewDidUnload
 {
@@ -112,22 +107,9 @@ NSArray *hotels;
     return [hotels count];
 }
 
-- (void)requestFinished:(ASIHTTPRequest *)request
-{
-    // Use when fetching text data
-    NSString *responseString = [request responseString];
-    
-    hotels = [responseString componentsSeparatedByString:@"~"];
-    NSLog(@"%@",hotels);
-    
-    
-}
 
-- (void)requestFailed:(ASIHTTPRequest *)request
-{
-    NSError *error = [request error];
-    NSLog(@"%@",error.localizedDescription);
-}
+
+
 
 
 

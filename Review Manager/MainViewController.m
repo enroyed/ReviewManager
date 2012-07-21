@@ -16,7 +16,7 @@
 @interface MainViewController ()
 
 @end
-NSArray *questions;
+NSArray *questions,*hotels;
 @implementation MainViewController
 @synthesize rateView;
 @synthesize statusLabel;
@@ -39,7 +39,7 @@ NSArray *questions;
     self.rateView.delegate = self;
     self.comment.layer.masksToBounds=YES;
     self.comment.layer.cornerRadius = 10.0f;
-    [self downloadQuestionsFromServer];
+    [self downloaddataFromServer];
   
     
     
@@ -106,8 +106,17 @@ NSArray *questions;
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([[segue identifier] isEqualToString:@"showAlternate"]) {
+    if ([[segue identifier] isEqualToString:@"showAlternate"])
+    {
         [[segue destinationViewController] setDelegate:self];
+        FlipsideViewController *fvc = [segue destinationViewController];
+        fvc.hotels = hotels;
+        
+        
+        
+        
+        
+        
         
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
             UIPopoverController *popoverController = [(UIStoryboardPopoverSegue *)segue popoverController];
@@ -121,6 +130,7 @@ NSArray *questions;
         QuestionsViewController *qvc = [segue destinationViewController];
         qvc.questions = questions;
     }
+    
 }
 
 - (IBAction)togglePopover:(id)sender
@@ -139,21 +149,51 @@ NSArray *questions;
     self.statusLabel.text = [NSString stringWithFormat:@"Rating: %d", rating];
 }
 
--(void) downloadQuestionsFromServer{
+-(void) downloaddataFromServer{
     NSURL *url = [NSURL URLWithString:@"http://enroyed.com/projects/iOS/questions.txt"];
-    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
-    [request setDelegate:self];
-    [request startAsynchronous];
+    ASIHTTPRequest *questionsRequest = [ASIHTTPRequest requestWithURL:url];
+    questionsRequest.userInfo = [NSDictionary dictionaryWithObject:@"questions" forKey:@"type"];
+    [questionsRequest setDelegate:self];
+    [questionsRequest startAsynchronous];
     
 }
 
 - (void)requestFinished:(ASIHTTPRequest *)request
 {
     // Use when fetching text data
+    /*
     NSString *responseString = [request responseString];
     
     questions = [responseString componentsSeparatedByString:@"~"];
+    */
     
+    if ([[request.userInfo objectForKey:@"type"] isEqualToString:@"questions"])
+    {
+        NSString *responseString = [request responseString];
+        questions = [responseString componentsSeparatedByString:@"~"];
+        //NSLog(@"%@",questions);  //working !!//
+        
+        NSURL *hotelsUrl = [NSURL URLWithString:@"http://enroyed.com/projects/iOS/questions.txt"];
+        ASIHTTPRequest *hotelsRequest = [ASIHTTPRequest requestWithURL:hotelsUrl];
+        hotelsRequest.userInfo = [NSDictionary dictionaryWithObject:@"hotels" forKey:@"type"];
+        [hotelsRequest setDelegate:self];
+        [hotelsRequest startAsynchronous];
+        
+        
+        
+    }
+    
+    if ([[request.userInfo objectForKey:@"type"] isEqualToString:@"hotels"])
+    {
+        NSString *responseHotels = [request responseString];
+        hotels = [responseHotels componentsSeparatedByString:@"~"];
+        //working //
+        /*
+        NSLog(@"second part");
+        NSLog(@"%@",hotels);
+        */
+        
+    }
 
 }
 
