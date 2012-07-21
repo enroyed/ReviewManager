@@ -10,6 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "ASIHTTPRequest.h"
 #import "QuestionsViewController.h"
+#import "FlipsideViewController.h"
 
 
 @interface MainViewController ()
@@ -38,7 +39,8 @@ NSArray *questions;
     self.rateView.delegate = self;
     self.comment.layer.masksToBounds=YES;
     self.comment.layer.cornerRadius = 10.0f;
-    [self downloadDataFromServer];
+    [self downloadQuestionsFromServer];
+  
     
     
 }
@@ -137,7 +139,7 @@ NSArray *questions;
     self.statusLabel.text = [NSString stringWithFormat:@"Rating: %d", rating];
 }
 
--(void) downloadDataFromServer{
+-(void) downloadQuestionsFromServer{
     NSURL *url = [NSURL URLWithString:@"http://enroyed.com/projects/iOS/questions.txt"];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
     [request setDelegate:self];
@@ -158,7 +160,14 @@ NSArray *questions;
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     NSError *error = [request error];
+    NSLog(@"%@",error.localizedDescription);
 }
+
+
+
+
+
+
 
 
 

@@ -9,10 +9,11 @@
 #import "FlipsideViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
+
 @interface FlipsideViewController ()
 
 @end
-
+NSArray *hotels;
 @implementation FlipsideViewController
 @synthesize tableContainerView;
 @synthesize lastIndexPath;
@@ -29,6 +30,15 @@
 	// Do any additional setup after loading the view, typically from a nib.
     tableContainerView.layer.masksToBounds=YES;
     tableContainerView.layer.cornerRadius= 10.0f;
+    [self downloadHotelsFromServer];
+    
+}
+
+-(void) downloadHotelsFromServer{
+    NSURL *url = [NSURL URLWithString:@"http://enroyed.com/projects/iOS/questions.txt"];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+    [request setDelegate:self];
+    [request startAsynchronous];
     
 }
 
@@ -62,7 +72,7 @@
     
     // Configure the cell...
     
-    cell.textLabel.text = @"galib";
+    cell.textLabel.text = [hotels objectAtIndex:indexPath.row];
     
     if ([indexPath compare:lastIndexPath] == NSOrderedSame)
     {
@@ -99,7 +109,24 @@
 {
     
     // Return the number of rows in the section.
-    return 3;
+    return [hotels count];
+}
+
+- (void)requestFinished:(ASIHTTPRequest *)request
+{
+    // Use when fetching text data
+    NSString *responseString = [request responseString];
+    
+    hotels = [responseString componentsSeparatedByString:@"~"];
+    NSLog(@"%@",hotels);
+    
+    
+}
+
+- (void)requestFailed:(ASIHTTPRequest *)request
+{
+    NSError *error = [request error];
+    NSLog(@"%@",error.localizedDescription);
 }
 
 

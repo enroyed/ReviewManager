@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ASIHTTPRequest.h"
 
 @class FlipsideViewController;
 
@@ -14,7 +15,7 @@
 - (void)flipsideViewControllerDidFinish:(FlipsideViewController *)controller;
 @end
 
-@interface FlipsideViewController : UIViewController<UITableViewDataSource,UITableViewDataSource>
+@interface FlipsideViewController : UIViewController<UITableViewDataSource,UITableViewDataSource,ASIHTTPRequestDelegate>
 
 @property (weak, nonatomic) id <FlipsideViewControllerDelegate> delegate;
 @property (weak, nonatomic) IBOutlet UIView *tableContainerView;
