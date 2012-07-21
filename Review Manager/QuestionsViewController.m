@@ -20,6 +20,7 @@
 @synthesize thirdQuestion;
 @synthesize forthQuestion;
 @synthesize fifthQuestion;
+@synthesize questions;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -34,6 +35,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+   // [self loadQuestions];
     
     
     // 1st CONTROL
@@ -107,6 +109,26 @@
     
     self.fifthQuestion.layer.masksToBounds = YES;
     self.fifthQuestion.layer.cornerRadius = 10.0f;
+    
+    
+    
+    //loading the questions //
+    firstQuestion.text = [questions objectAtIndex:0];
+    secondQuestion.text = [questions objectAtIndex:1];
+    thirdQuestion.text = [questions objectAtIndex:2];
+    forthQuestion.text = [questions objectAtIndex:3];
+    fifthQuestion.text = [questions objectAtIndex:4];
+    
+    
+    
+    
+   
+    
+    
+    
+    
+    
+    
 
 }
 
@@ -125,5 +147,13 @@
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+
+
+
+
+
+
+
+
 
 @end

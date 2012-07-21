@@ -17,5 +17,6 @@
 @property (weak, nonatomic) IBOutlet UITextView *thirdQuestion;
 @property (weak, nonatomic) IBOutlet UITextView *forthQuestion;
 @property (weak, nonatomic) IBOutlet UITextView *fifthQuestion;
+@property(weak,nonatomic) NSArray *questions;
 
 @end

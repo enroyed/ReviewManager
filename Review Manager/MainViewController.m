@@ -8,20 +8,26 @@
 
 #import "MainViewController.h"
 #import <QuartzCore/QuartzCore.h>
+#import "ASIHTTPRequest.h"
+#import "QuestionsViewController.h"
+
 
 @interface MainViewController ()
 
 @end
-
+NSArray *questions;
 @implementation MainViewController
 @synthesize rateView;
 @synthesize statusLabel;
 @synthesize comment;
 
 
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
 	
     self.rateView.notSelectedImage = [UIImage imageNamed:@"kermit_empty.png"];
     self.rateView.halfSelectedImage = [UIImage imageNamed:@"kermit_half.png"];
@@ -32,6 +38,9 @@
     self.rateView.delegate = self;
     self.comment.layer.masksToBounds=YES;
     self.comment.layer.cornerRadius = 10.0f;
+    [self downloadDataFromServer];
+    
+    
 }
 
 - (void)viewDidUnload
@@ -42,6 +51,8 @@
     [self setComment:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
+    
+   
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -102,6 +113,12 @@
             popoverController.delegate = self;
         }
     }
+    
+    if ([[segue identifier] isEqualToString:@"next"])
+    {
+        QuestionsViewController *qvc = [segue destinationViewController];
+        qvc.questions = questions;
+    }
 }
 
 - (IBAction)togglePopover:(id)sender
@@ -119,5 +136,32 @@
 - (void)rateView:(RateView *)rateView ratingDidChange:(int)rating {
     self.statusLabel.text = [NSString stringWithFormat:@"Rating: %d", rating];
 }
+
+-(void) downloadDataFromServer{
+    NSURL *url = [NSURL URLWithString:@"http://enroyed.com/projects/iOS/questions.txt"];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+    [request setDelegate:self];
+    [request startAsynchronous];
+    
+}
+
+- (void)requestFinished:(ASIHTTPRequest *)request
+{
+    // Use when fetching text data
+    NSString *responseString = [request responseString];
+    
+    questions = [responseString componentsSeparatedByString:@"~"];
+    
+
+}
+
+- (void)requestFailed:(ASIHTTPRequest *)request
+{
+    NSError *error = [request error];
+}
+
+
+
+
 
 @end
