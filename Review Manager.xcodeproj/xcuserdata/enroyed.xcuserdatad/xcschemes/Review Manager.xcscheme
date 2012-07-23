@@ -47,6 +47,7 @@
       buildConfiguration = "Debug"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
+      enableOpenGLFrameCaptureMode = "0"
       allowLocationSimulation = "YES">
       <BuildableProductRunnable>
          <BuildableReference
@@ -80,7 +81,7 @@
       buildConfiguration = "Debug">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug"
       customArchiveName = "Review Manager"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>

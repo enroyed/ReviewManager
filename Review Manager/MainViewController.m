@@ -173,7 +173,7 @@ NSArray *questions,*hotels;
         questions = [responseString componentsSeparatedByString:@"~"];
         //NSLog(@"%@",questions);  //working !!//
         
-        NSURL *hotelsUrl = [NSURL URLWithString:@"http://enroyed.com/projects/iOS/questions.txt"];
+        NSURL *hotelsUrl = [NSURL URLWithString:@"http://enroyed.com/projects/iOS/hotels.txt"];
         ASIHTTPRequest *hotelsRequest = [ASIHTTPRequest requestWithURL:hotelsUrl];
         hotelsRequest.userInfo = [NSDictionary dictionaryWithObject:@"hotels" forKey:@"type"];
         [hotelsRequest setDelegate:self];
