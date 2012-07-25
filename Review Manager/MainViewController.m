@@ -11,16 +11,26 @@
 #import "ASIHTTPRequest.h"
 #import "QuestionsViewController.h"
 #import "FlipsideViewController.h"
+#import "UserData.h"
 
 
 @interface MainViewController ()
 
 @end
 NSArray *questions,*hotels;
+
+int error=0;
+int buttonFlag = 1;
 @implementation MainViewController
 @synthesize rateView;
 @synthesize statusLabel;
+@synthesize userName;
+@synthesize userEmail;
+@synthesize userCity;
+@synthesize userPhone;
 @synthesize comment;
+@synthesize nextButton;
+@synthesize userdata;
 
 
 
@@ -40,6 +50,8 @@ NSArray *questions,*hotels;
     self.comment.layer.masksToBounds=YES;
     self.comment.layer.cornerRadius = 10.0f;
     [self downloaddataFromServer];
+    nextButton.enabled = NO;
+   
   
     
     
@@ -51,6 +63,11 @@ NSArray *questions,*hotels;
     [self setStatusLabel:nil];
     
     [self setComment:nil];
+    [self setUserName:nil];
+    [self setUserEmail:nil];
+    [self setUserCity:nil];
+    [self setUserPhone:nil];
+    [self setNextButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     
@@ -106,6 +123,9 @@ NSArray *questions,*hotels;
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+   
+
+    
     if ([[segue identifier] isEqualToString:@"showAlternate"])
     {
         [[segue destinationViewController] setDelegate:self];
@@ -129,6 +149,16 @@ NSArray *questions,*hotels;
     {
         QuestionsViewController *qvc = [segue destinationViewController];
         qvc.questions = questions;
+        userdata = [[UserData alloc]init];
+        self.userdata.userName = userName.text;
+        self.userdata.userEmail = userEmail.text;
+        self.userdata.userCity = userCity.text;
+        self.userdata.userPhone = userPhone.text;
+        self.userdata.userComment = comment.text;
+        qvc.userData = self.userdata;
+        
+        
+        
     }
     
 }
@@ -203,14 +233,160 @@ NSArray *questions,*hotels;
     NSLog(@"%@",error.localizedDescription);
 }
 
+- (void)textFieldDidEndEditing:(UITextField *)textField{
+   //validation //
+    
+    if (textField.tag == 1)
+    {
+        
+        if (userName.text.length == 0)
+        {
+            error=1;
+           
+            
+            
+            //userName.text = @"[Name field can't be empty]";
+            userName.layer.borderColor= [[UIColor redColor]CGColor];
+            userName.layer.borderWidth= 2.0f;
+            userName.placeholder = @"[Name field can't be empty]";
+            [self showAlert:@"Name field can't be empty"];
+            
+            
+        }
+         else
+         {
+             error=0;
+             
+             
+             
+         }
+    }
+    
+    if (textField.tag == 3)
+    {
+       
+        if (userCity.text.length == 0)
+        {
+            error=1;
+            
+            
+            userCity.placeholder = @"[Name field can't be empty]";
+            userCity.layer.borderColor= [[UIColor redColor]CGColor];
+            userCity.layer.borderWidth= 2.0f;
+            //userCity.textColor = [UIColor redColor];
+            [self showAlert:@"City field can't be empty"];
+            
+        }
+        else
+        {
+            error=0;
+            
+            
+        }
+    }
+    
+    if (textField.tag == 4)
+    {
+         
+        if (userPhone.text.length == 0)
+        {
+            error=1;
+           
+            
+            userPhone.placeholder = @"[Phone field can't be empty]";
+            userPhone.layer.borderColor= [[UIColor redColor]CGColor];
+            userPhone.layer.borderWidth= 2.0f;
+            //userPhone.textColor = [UIColor redColor];
+            [self showAlert:@"Phone field can't be empty"];
+            
+        }
+        else
+        {
+            error=0;
+           
+            
+        }
+    }
+    
+    
+        
+    
+}
+
+
+-(void) showAlert:(NSString *) alert{
+    UIAlertView *myAlert = [[UIAlertView alloc]initWithTitle:@"Error" message:alert delegate:self cancelButtonTitle:nil otherButtonTitles:@"ok",nil];
+    [myAlert show];
+    
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView{
+    
+    if (comment.text.length == 0)
+    {
+        error = 1;
+        //comment.text = @"[Comment field can't be empty]";
+        comment.layer.borderColor= [[UIColor redColor]CGColor];
+        comment.layer.borderWidth= 2.0f;
+        //comment.textColor = [UIColor redColor];
+        
+        //[self showAlert:@"Comment field can't be empty"];
+        
+    }
+    else
+   {
+    error = 0;
+   }
 
 
 
+    
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView{
+    if (userName.text.length!=0 && userPhone.text.length!=0 && userCity.text.length!=0 && error==0)
+    {
+        nextButton.enabled  = YES;
+    }
+    
+    textView.layer.borderColor = [[UIColor blackColor]CGColor];
+    
+   
+}
 
 
 
-
+- (void)textFieldDidBeginEditing:(UITextField *)textField{
+    if (textField.tag ==1)
+    {
+        textField.layer.borderColor = [[UIColor blackColor]CGColor];
+        
+    }
+    
+    if (textField.tag ==2)
+    {
+        textField.layer.borderColor = [[UIColor blackColor]CGColor];
+        
+    }
+    
+    if (textField.tag ==3)
+    {
+        textField.layer.borderColor = [[UIColor blackColor]CGColor];
+        
+    }
+    if (textField.tag ==4)
+    {
+        textField.layer.borderColor = [[UIColor blackColor]CGColor];
+        textField.keyboardType = UIKeyboardTypeNumberPad;
+        
+    }
+    
+    
+}
+ 
 
 
 
 @end
+
+

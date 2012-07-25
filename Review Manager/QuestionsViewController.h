@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SVSegmentedControl.h"
+#import "UserData.h"
 
 
 
@@ -18,5 +19,10 @@
 @property (weak, nonatomic) IBOutlet UITextView *forthQuestion;
 @property (weak, nonatomic) IBOutlet UITextView *fifthQuestion;
 @property(weak,nonatomic) NSArray *questions;
+@property (nonatomic) UserData *userData;
+
+- (IBAction)submitData:(id)sender;
+
+
 
 @end

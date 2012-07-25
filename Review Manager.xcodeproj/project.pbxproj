@@ -38,6 +38,7 @@
 		AF5588F315BA191900234A5B /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF5588F215BA191900234A5B /* MobileCoreServices.framework */; };
 		AF5588F515BA192C00234A5B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AF5588F415BA192C00234A5B /* libz.dylib */; };
 		AF8249BA15BC4F490029FECA /* Data.plist in Resources */ = {isa = PBXBuildFile; fileRef = AF8249B915BC4F490029FECA /* Data.plist */; };
+		AF88E68315BF601C00E3E9C1 /* UserData.m in Sources */ = {isa = PBXBuildFile; fileRef = AF88E68215BF601C00E3E9C1 /* UserData.m */; };
 		AFA808FF15B8885000D12E6A /* QuestionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFA808FE15B8885000D12E6A /* QuestionsViewController.m */; };
 		AFA8090615B88B3800D12E6A /* SVSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = AFA8090415B88B3800D12E6A /* SVSegmentedControl.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		AFA8090715B88B3800D12E6A /* SVSegmentedThumb.m in Sources */ = {isa = PBXBuildFile; fileRef = AFA8090515B88B3800D12E6A /* SVSegmentedThumb.m */; };
@@ -97,6 +98,8 @@
 		AF5588F215BA191900234A5B /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		AF5588F415BA192C00234A5B /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		AF8249B915BC4F490029FECA /* Data.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Data.plist; sourceTree = "<group>"; };
+		AF88E68115BF601C00E3E9C1 /* UserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserData.h; sourceTree = "<group>"; };
+		AF88E68215BF601C00E3E9C1 /* UserData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserData.m; sourceTree = "<group>"; };
 		AFA808FD15B8885000D12E6A /* QuestionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionsViewController.h; sourceTree = "<group>"; };
 		AFA808FE15B8885000D12E6A /* QuestionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionsViewController.m; sourceTree = "<group>"; };
 		AFA8090215B88B3800D12E6A /* SVSegmentedThumb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSegmentedThumb.h; sourceTree = "<group>"; };
@@ -192,6 +195,8 @@
 				AF5588E115BA189800234A5B /* ASIProgressDelegate.h */,
 				AF2AF85615B8581900514B2D /* MainStoryboard_iPad.storyboard */,
 				AF2AF85915B8581900514B2D /* MainViewController.h */,
+				AF88E68115BF601C00E3E9C1 /* UserData.h */,
+				AF88E68215BF601C00E3E9C1 /* UserData.m */,
 				AF2AF85A15B8581900514B2D /* MainViewController.m */,
 				AF2AF85C15B8581900514B2D /* FlipsideViewController.h */,
 				AF2AF85D15B8581900514B2D /* FlipsideViewController.m */,
@@ -312,6 +317,7 @@
 				AF5588E815BA189800234A5B /* ASIInputStream.m in Sources */,
 				AF5588E915BA189800234A5B /* ASINetworkQueue.m in Sources */,
 				AF5588ED15BA18B500234A5B /* Reachability.m in Sources */,
+				AF88E68315BF601C00E3E9C1 /* UserData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

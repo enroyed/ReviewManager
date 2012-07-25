@@ -9,11 +9,13 @@
 #import "QuestionsViewController.h"
 #import "SVSegmentedControl.h"
 #import <QuartzCore/QuartzCore.h>
+#import "ASIFormDataRequest.h"
+
 
 @interface QuestionsViewController ()
 
 @end
-
+int a1=0,a2=0,a3=0,a4=0,a5=0; //answers //
 @implementation QuestionsViewController
 @synthesize firstQuestion;
 @synthesize secondQuestion;
@@ -21,6 +23,8 @@
 @synthesize forthQuestion;
 @synthesize fifthQuestion;
 @synthesize questions;
+@synthesize userData;
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -37,14 +41,39 @@
 	// Do any additional setup after loading the view.
    // [self loadQuestions];
     
+    NSLog(@"%@",userData.userName); //working //
+    
+
+   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     // 1st CONTROL
 	
 	SVSegmentedControl *firstQ = [[SVSegmentedControl alloc] initWithSectionTitles:[NSArray arrayWithObjects:@"Yes", @"No", nil]];
-    firstQ.changeHandler = ^(NSUInteger newIndex) {
-        NSLog(@"segmentedControl did select index %i (via block handler)", newIndex);
-    };
     
+
+    firstQ.changeHandler = ^(NSUInteger newIndex) {
+        a1=newIndex;
+        
+        
+        
+       
+       NSLog(@"segmentedControl did select index %i (via block handler)", newIndex);
+        
+    };
+        
 	[self.view addSubview:firstQ];
 	
 	firstQ.center = CGPointMake(260, 73);
@@ -53,9 +82,16 @@
     // 2st CONTROL
 	
 	SVSegmentedControl *secondQ = [[SVSegmentedControl alloc] initWithSectionTitles:[NSArray arrayWithObjects:@"Yes", @"No", nil]];
+   
     secondQ.changeHandler = ^(NSUInteger newIndex) {
-        NSLog(@"segmentedControl did select index %i (via block handler)", newIndex);
+       
+        a2= newIndex;
+     
+    
+       NSLog(@"segmentedControl did select index %i (via block handler)", newIndex);
     };
+    
+   
     
 	[self.view addSubview:secondQ];
 	
@@ -64,9 +100,14 @@
     // 3rd CONTROL
 	
 	SVSegmentedControl *thirdQ = [[SVSegmentedControl alloc] initWithSectionTitles:[NSArray arrayWithObjects:@"Yes", @"No", nil]];
+    
     thirdQ.changeHandler = ^(NSUInteger newIndex) {
+        a3= newIndex;
+       
+      
         NSLog(@"segmentedControl did select index %i (via block handler)", newIndex);
     };
+    
     
 	[self.view addSubview:thirdQ];
 	
@@ -76,9 +117,17 @@
     // 4th CONTROL
 	
 	SVSegmentedControl *forthQ = [[SVSegmentedControl alloc] initWithSectionTitles:[NSArray arrayWithObjects:@"Yes", @"No", nil]];
+    
+    
     forthQ.changeHandler = ^(NSUInteger newIndex) {
+        a4 = newIndex;
+        
+        
+       
         NSLog(@"segmentedControl did select index %i (via block handler)", newIndex);
     };
+    
+   
     
 	[self.view addSubview:forthQ];
 	
@@ -88,9 +137,17 @@
     // 5th CONTROL
 	
 	SVSegmentedControl *fifthQ = [[SVSegmentedControl alloc] initWithSectionTitles:[NSArray arrayWithObjects:@"Yes", @"No", nil]];
+    
     fifthQ.changeHandler = ^(NSUInteger newIndex) {
+        a5 = newIndex;
+       
+        
         NSLog(@"segmentedControl did select index %i (via block handler)", newIndex);
+        //NSLog(@"%@",self.userData.answers);
+       
     };
+    
+    
     
 	[self.view addSubview:fifthQ];
 	
@@ -122,6 +179,9 @@
     
     
     
+    
+    
+    
    
     
     
@@ -139,6 +199,7 @@
     [self setThirdQuestion:nil];
     [self setForthQuestion:nil];
     [self setFifthQuestion:nil];
+   
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -148,12 +209,36 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+-(NSMutableString *) convertAnsToString{
+    NSMutableString *answers  = [[NSMutableString alloc]init];
+    [answers insertString:[NSString stringWithFormat:@"%d",a1] atIndex:0];
+    [answers insertString:[NSString stringWithFormat:@"%d",a2] atIndex:1];
+    [answers insertString:[NSString stringWithFormat:@"%d",a3] atIndex:2];
+    [answers insertString:[NSString stringWithFormat:@"%d",a4] atIndex:3];
+    [answers insertString:[NSString stringWithFormat:@"%d",a5] atIndex:4];
+    
+    
+    return answers;
+    
+    
+    
+    
+    
+}
 
-
-
-
-
-
-
-
+- (IBAction)submitData:(id)sender {
+    self.userData.answers = [self convertAnsToString];
+    NSLog(@"%@",self.userData.answers);
+    NSURL *url = [NSURL URLWithString:@"http://localhost/review.php"];
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+    [request addPostValue:@"value" forKey:@"key"];
+    [request startAsynchronous];
+    
+    
+    
+    
+   
+    
+   
+}
 @end
