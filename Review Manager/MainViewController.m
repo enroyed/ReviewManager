@@ -20,6 +20,7 @@
 NSArray *questions,*hotels;
 
 int error=0;
+int networkError=0;
 int buttonFlag = 1;
 @implementation MainViewController
 @synthesize rateView;
@@ -39,7 +40,7 @@ int buttonFlag = 1;
 {
     [super viewDidLoad];
     
-	
+    self.navigationItem.hidesBackButton = YES;
     self.rateView.notSelectedImage = [UIImage imageNamed:@"kermit_empty.png"];
     self.rateView.halfSelectedImage = [UIImage imageNamed:@"kermit_half.png"];
     self.rateView.fullSelectedImage = [UIImage imageNamed:@"kermit_full.png"];
@@ -180,7 +181,7 @@ int buttonFlag = 1;
 }
 
 -(void) downloaddataFromServer{
-    NSURL *url = [NSURL URLWithString:@"http://enroyed.com/projects/iOS/questions.txt"];
+    NSURL *url = [NSURL URLWithString:@"http://review.reputationtec.com/q.php"];
     ASIHTTPRequest *questionsRequest = [ASIHTTPRequest requestWithURL:url];
     questionsRequest.userInfo = [NSDictionary dictionaryWithObject:@"questions" forKey:@"type"];
     [questionsRequest setDelegate:self];
@@ -203,7 +204,7 @@ int buttonFlag = 1;
         questions = [responseString componentsSeparatedByString:@"~"];
         //NSLog(@"%@",questions);  //working !!//
         
-        NSURL *hotelsUrl = [NSURL URLWithString:@"http://enroyed.com/projects/iOS/hotels.txt"];
+        NSURL *hotelsUrl = [NSURL URLWithString:@"http://review.reputationtec.com/branch.php"];
         ASIHTTPRequest *hotelsRequest = [ASIHTTPRequest requestWithURL:hotelsUrl];
         hotelsRequest.userInfo = [NSDictionary dictionaryWithObject:@"hotels" forKey:@"type"];
         [hotelsRequest setDelegate:self];
@@ -229,8 +230,11 @@ int buttonFlag = 1;
 
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
-    NSError *error = [request error];
-    NSLog(@"%@",error.localizedDescription);
+    networkError = 1;
+    NSError *myerror = [request error];
+    
+    //NSLog(@"%@",error.localizedDescription);
+    [self showAlert:myerror.localizedDescription];
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField{
@@ -344,7 +348,7 @@ int buttonFlag = 1;
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView{
-    if (userName.text.length!=0 && userPhone.text.length!=0 && userCity.text.length!=0 && error==0)
+    if (userName.text.length!=0 && userPhone.text.length!=0 && userCity.text.length!=0 && error==0 && networkError==0)
     {
         nextButton.enabled  = YES;
     }

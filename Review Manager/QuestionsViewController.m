@@ -10,6 +10,8 @@
 #import "SVSegmentedControl.h"
 #import <QuartzCore/QuartzCore.h>
 #import "ASIFormDataRequest.h"
+#import "MainViewController.h"
+#import "MBProgressHUD.h"
 
 
 @interface QuestionsViewController ()
@@ -75,10 +77,18 @@ int a1=0,a2=0,a3=0,a4=0,a5=0; //answers //
     };
         
 	[self.view addSubview:firstQ];
+    
+    if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad)
+    {
+        firstQ.center=CGPointMake(650, 80);
+    }
+    
+    else 
+    {
 	
 	firstQ.center = CGPointMake(260, 73);
     
-    
+    }
     // 2st CONTROL
 	
 	SVSegmentedControl *secondQ = [[SVSegmentedControl alloc] initWithSectionTitles:[NSArray arrayWithObjects:@"Yes", @"No", nil]];
@@ -94,8 +104,15 @@ int a1=0,a2=0,a3=0,a4=0,a5=0; //answers //
    
     
 	[self.view addSubview:secondQ];
-	
+    
+    if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad)
+    {
+        secondQ.center=CGPointMake(650, 242);
+    }
+    
+	else{
 	secondQ.center = CGPointMake(260, 138);
+    }
     
     // 3rd CONTROL
 	
@@ -110,9 +127,15 @@ int a1=0,a2=0,a3=0,a4=0,a5=0; //answers //
     
     
 	[self.view addSubview:thirdQ];
-	
-	thirdQ.center = CGPointMake(260, 200);
     
+    if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad)
+    {
+        thirdQ.center=CGPointMake(650, 404);
+    }
+	
+    else{
+	thirdQ.center = CGPointMake(260, 200);
+    }
     
     // 4th CONTROL
 	
@@ -131,8 +154,13 @@ int a1=0,a2=0,a3=0,a4=0,a5=0; //answers //
     
 	[self.view addSubview:forthQ];
 	
+    if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad)
+    {
+    forthQ.center=CGPointMake(650, 575);
+    }
+    else{
 	forthQ.center = CGPointMake(260, 267);
-    
+    }
     
     // 5th CONTROL
 	
@@ -150,9 +178,14 @@ int a1=0,a2=0,a3=0,a4=0,a5=0; //answers //
     
     
 	[self.view addSubview:fifthQ];
-	
-	fifthQ.center = CGPointMake(260, 332);
     
+    if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad)
+    {
+        fifthQ.center=CGPointMake(650, 732);
+    }
+	else{
+	fifthQ.center = CGPointMake(260, 332);
+    }
     self.firstQuestion.layer.masksToBounds = YES;
     self.firstQuestion.layer.cornerRadius = 10.0f;
     self.secondQuestion.layer.masksToBounds = YES;
@@ -228,11 +261,24 @@ int a1=0,a2=0,a3=0,a4=0,a5=0; //answers //
 
 - (IBAction)submitData:(id)sender {
     self.userData.answers = [self convertAnsToString];
-    NSLog(@"%@",self.userData.answers);
-    NSURL *url = [NSURL URLWithString:@"http://localhost/review.php"];
+    NSLog(@"%@,%@,%@,%@,%@,%@",self.userData.userName,self.userData.userCity,self.userData.userEmail,self.userData.userPhone,self.userData.userComment,self.userData.answers);
+    NSURL *url = [NSURL URLWithString:@"http://localhost/php/testPost.php"];
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
-    [request addPostValue:@"value" forKey:@"key"];
-    [request startAsynchronous];
+    [request addPostValue:self.userData.userName forKey:@"name"];
+    [request setDelegate:self];
+    [request startSynchronous];
+    
+    
+
+    
+    
+    
+    
+   // [self loadHomeView];
+    
+    
+    
+    
     
     
     
@@ -240,5 +286,44 @@ int a1=0,a2=0,a3=0,a4=0,a5=0; //answers //
    
     
    
+}
+
+-(void) loadHomeView{
+    MainViewController *mvc = [self.storyboard instantiateViewControllerWithIdentifier:@"mvc"];
+    [self.navigationController pushViewController:mvc animated:YES];
+    mvc.navigationItem.leftBarButtonItem = nil;
+    
+}
+
+- (void)requestFinished:(ASIHTTPRequest *)request {
+    NSLog(@"Response %d ==> %@", request.responseStatusCode, [request responseString]);
+    MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+	[self.navigationController.view addSubview:HUD];
+	
+	// The sample image is based on the work by http://www.pixelpressicons.com, http://creativecommons.org/licenses/by/2.5/ca/
+	// Make the customViews 37 by 37 pixels for best results (those are the bounds of the build-in progress indicators)
+	HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+	
+	// Set custom view mode
+	HUD.mode = MBProgressHUDModeCustomView;
+	
+	HUD.delegate = self;
+	HUD.labelText = @"Completed";
+	
+	[HUD show:YES];
+	[HUD hide:YES afterDelay:5];
+    [self loadHomeView];
+}
+-(void) showAlert:(NSString *) alert{
+    UIAlertView *myAlert = [[UIAlertView alloc]initWithTitle:@"Error" message:alert delegate:self cancelButtonTitle:nil otherButtonTitles:@"ok",nil];
+    [myAlert show];
+    
+}
+
+- (void)requestFailed:(ASIHTTPRequest *)request
+{
+    NSError *error = [request error];
+    //NSLog(@"%@",error.localizedDescription);
+    [self showAlert:error.localizedDescription];
 }
 @end

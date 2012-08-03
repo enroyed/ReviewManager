@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "SVSegmentedControl.h"
 #import "UserData.h"
+#import "MBProgressHUD.h"
 
 
 
-@interface QuestionsViewController : UIViewController
+@interface QuestionsViewController : UIViewController<MBProgressHUDDelegate>
 @property (weak, nonatomic) IBOutlet UITextView *firstQuestion;
 @property (weak, nonatomic) IBOutlet UITextView *secondQuestion;
 @property (weak, nonatomic) IBOutlet UITextView *thirdQuestion;

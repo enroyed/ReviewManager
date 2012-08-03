@@ -10,7 +10,7 @@
 #import "RateView.h"
 #include "UserData.h"
 
-@interface MainViewController : UIViewController <FlipsideViewControllerDelegate, UIPopoverControllerDelegate,RateViewDelegate,UITextFieldDelegate>
+@interface MainViewController : UIViewController <FlipsideViewControllerDelegate, UIPopoverControllerDelegate,RateViewDelegate,UITextFieldDelegate,UITextViewDelegate>
 
 @property (strong, nonatomic) UIPopoverController *flipsidePopoverController;
 
