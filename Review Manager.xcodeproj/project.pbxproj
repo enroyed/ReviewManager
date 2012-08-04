@@ -38,6 +38,7 @@
 		AF7E405615C8DD2400AD9E5B /* kermit_empty~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = AF7E405515C8DD2400AD9E5B /* kermit_empty~iphone.png */; };
 		AF8249BA15BC4F490029FECA /* Data.plist in Resources */ = {isa = PBXBuildFile; fileRef = AF8249B915BC4F490029FECA /* Data.plist */; };
 		AF88E68315BF601C00E3E9C1 /* UserData.m in Sources */ = {isa = PBXBuildFile; fileRef = AF88E68215BF601C00E3E9C1 /* UserData.m */; };
+		AFA362FA15CC9A2400725400 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AFA362F915CC9A2400725400 /* Default@2x.png */; };
 		AFA808FF15B8885000D12E6A /* QuestionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFA808FE15B8885000D12E6A /* QuestionsViewController.m */; };
 		AFA8090615B88B3800D12E6A /* SVSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = AFA8090415B88B3800D12E6A /* SVSegmentedControl.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		AFA8090715B88B3800D12E6A /* SVSegmentedThumb.m in Sources */ = {isa = PBXBuildFile; fileRef = AFA8090515B88B3800D12E6A /* SVSegmentedThumb.m */; };
@@ -102,6 +103,7 @@
 		AF8249B915BC4F490029FECA /* Data.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Data.plist; sourceTree = "<group>"; };
 		AF88E68115BF601C00E3E9C1 /* UserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserData.h; sourceTree = "<group>"; };
 		AF88E68215BF601C00E3E9C1 /* UserData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserData.m; sourceTree = "<group>"; };
+		AFA362F915CC9A2400725400 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		AFA808FD15B8885000D12E6A /* QuestionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionsViewController.h; sourceTree = "<group>"; };
 		AFA808FE15B8885000D12E6A /* QuestionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionsViewController.m; sourceTree = "<group>"; };
 		AFA8090215B88B3800D12E6A /* SVSegmentedThumb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSegmentedThumb.h; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 		AF2AF83215B8581900514B2D = {
 			isa = PBXGroup;
 			children = (
+				AFA362F915CC9A2400725400 /* Default@2x.png */,
 				AF8249B915BC4F490029FECA /* Data.plist */,
 				AFC5B71215C97B5D00F4A155 /* Review Manager.entitlements */,
 				AF5588F415BA192C00234A5B /* libz.dylib */,
@@ -300,6 +303,7 @@
 				AFC5B71315C97B5D00F4A155 /* Review Manager.entitlements in Resources */,
 				AFD0E9EE15CBB03300A8815F /* 37x-Checkmark.png in Resources */,
 				AFD0E9F015CBB03E00A8815F /* 37x-Checkmark@2x.png in Resources */,
+				AFA362FA15CC9A2400725400 /* Default@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

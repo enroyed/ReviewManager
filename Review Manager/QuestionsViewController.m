@@ -261,7 +261,7 @@ int a1=0,a2=0,a3=0,a4=0,a5=0; //answers //
 
 - (IBAction)submitData:(id)sender {
     self.userData.answers = [self convertAnsToString];
-    NSLog(@"%@,%@,%@,%@,%@,%@",self.userData.userName,self.userData.userCity,self.userData.userEmail,self.userData.userPhone,self.userData.userComment,self.userData.answers);
+    NSLog(@"%@,%@,%@,%@,%@,%@,%d",self.userData.userName,self.userData.userCity,self.userData.userEmail,self.userData.userPhone,self.userData.userComment,self.userData.answers,self.userData.rating);
     NSURL *url = [NSURL URLWithString:@"http://localhost/php/testPost.php"];
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
     [request addPostValue:self.userData.userName forKey:@"name"];
@@ -311,7 +311,7 @@ int a1=0,a2=0,a3=0,a4=0,a5=0; //answers //
 	HUD.labelText = @"Completed";
 	
 	[HUD show:YES];
-	[HUD hide:YES afterDelay:5];
+	[HUD hide:YES afterDelay:3];
     [self loadHomeView];
 }
 -(void) showAlert:(NSString *) alert{

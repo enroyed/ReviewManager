@@ -18,10 +18,11 @@
 
 @end
 NSArray *questions,*hotels;
-
-int error=0;
+int ratingError = 1;
+int error=1;
 int networkError=0;
 int buttonFlag = 1;
+int myrating=0;
 @implementation MainViewController
 @synthesize rateView;
 @synthesize statusLabel;
@@ -44,6 +45,7 @@ int buttonFlag = 1;
     self.rateView.notSelectedImage = [UIImage imageNamed:@"kermit_empty.png"];
     self.rateView.halfSelectedImage = [UIImage imageNamed:@"kermit_half.png"];
     self.rateView.fullSelectedImage = [UIImage imageNamed:@"kermit_full.png"];
+   
     self.rateView.rating = 0;
     self.rateView.editable = YES;
     self.rateView.maxRating = 5;
@@ -51,7 +53,7 @@ int buttonFlag = 1;
     self.comment.layer.masksToBounds=YES;
     self.comment.layer.cornerRadius = 10.0f;
     [self downloaddataFromServer];
-    nextButton.enabled = NO;
+   // nextButton.enabled = NO;
    
   
     
@@ -156,6 +158,7 @@ int buttonFlag = 1;
         self.userdata.userCity = userCity.text;
         self.userdata.userPhone = userPhone.text;
         self.userdata.userComment = comment.text;
+        self.userdata.rating = myrating;
         qvc.userData = self.userdata;
         
         
@@ -177,7 +180,9 @@ int buttonFlag = 1;
 //receive the review Using delegate //
 
 - (void)rateView:(RateView *)rateView ratingDidChange:(int)rating {
-    self.statusLabel.text = [NSString stringWithFormat:@"Rating: %d", rating];
+    //self.statusLabel.text = [NSString stringWithFormat:@"Rating: %d", rating];
+    myrating = rating;
+    //NSLog(@"%d",myrating);
 }
 
 -(void) downloaddataFromServer{
@@ -238,81 +243,7 @@ int buttonFlag = 1;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField{
-   //validation //
-    
-    if (textField.tag == 1)
-    {
-        
-        if (userName.text.length == 0)
-        {
-            error=1;
-           
-            
-            
-            //userName.text = @"[Name field can't be empty]";
-            userName.layer.borderColor= [[UIColor redColor]CGColor];
-            userName.layer.borderWidth= 2.0f;
-            userName.placeholder = @"[Name field can't be empty]";
-            [self showAlert:@"Name field can't be empty"];
-            
-            
-        }
-         else
-         {
-             error=0;
-             
-             
-             
-         }
-    }
-    
-    if (textField.tag == 3)
-    {
        
-        if (userCity.text.length == 0)
-        {
-            error=1;
-            
-            
-            userCity.placeholder = @"[Name field can't be empty]";
-            userCity.layer.borderColor= [[UIColor redColor]CGColor];
-            userCity.layer.borderWidth= 2.0f;
-            //userCity.textColor = [UIColor redColor];
-            [self showAlert:@"City field can't be empty"];
-            
-        }
-        else
-        {
-            error=0;
-            
-            
-        }
-    }
-    
-    if (textField.tag == 4)
-    {
-         
-        if (userPhone.text.length == 0)
-        {
-            error=1;
-           
-            
-            userPhone.placeholder = @"[Phone field can't be empty]";
-            userPhone.layer.borderColor= [[UIColor redColor]CGColor];
-            userPhone.layer.borderWidth= 2.0f;
-            //userPhone.textColor = [UIColor redColor];
-            [self showAlert:@"Phone field can't be empty"];
-            
-        }
-        else
-        {
-            error=0;
-           
-            
-        }
-    }
-    
-    
         
     
 }
@@ -348,10 +279,7 @@ int buttonFlag = 1;
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView{
-    if (userName.text.length!=0 && userPhone.text.length!=0 && userCity.text.length!=0 && error==0 && networkError==0)
-    {
-        nextButton.enabled  = YES;
-    }
+    
     
     textView.layer.borderColor = [[UIColor blackColor]CGColor];
     
@@ -390,6 +318,97 @@ int buttonFlag = 1;
  
 
 
+
+- (IBAction)nextPressed:(id)sender {
+    [self validateForm];
+    
+    if (error==0)
+    {
+    [self performSegueWithIdentifier:@"next" sender:sender];
+    }
+    else if (networkError == 1)
+    {
+        [self showAlert:@"Network Problem,Please check your Network Connection"];
+    }
+    else if (ratingError == 1)
+    {
+        [self showAlert:@"You Did Not select the Rating"];
+    }
+else{
+    [self showAlert:@"Error In Form Data"];
+}
+
+}
+
+-(void) validateForm{
+   
+    if (self.userName.text.length==0)
+    {
+        error=1;
+        self.userName.placeholder=@"[Name field Can't be empty]";
+        userName.layer.borderColor = [[UIColor redColor]CGColor];
+        userName.layer.borderWidth= 2.0f;
+    }
+    
+    else error = 0;
+    
+    if (self.userEmail.text.length == 0)
+    {
+        error = 1;
+        self.userEmail.placeholder = @"[email field Can't be empty]";
+        self.userEmail.layer.borderColor=[[UIColor redColor]CGColor];
+        self.userEmail.layer.borderWidth= 2.0f;
+        
+    }
+    
+    else error = 0;
+    
+    if (self.userCity.text.length == 0)
+    {
+        error = 1;
+        self.userCity.placeholder = @"[City field Can't be empty]";
+        self.userCity.layer.borderColor=[[UIColor redColor]CGColor];
+        self.userCity.layer.borderWidth= 2.0f;
+        
+    }
+    
+    else error = 0;
+    
+    
+    if (self.userPhone.text.length == 0)
+    {
+        error = 1;
+        self.userPhone.placeholder = @"[Phone field Can't be empty]";
+        self.userPhone.layer.borderColor=[[UIColor redColor]CGColor];
+        self.userPhone.layer.borderWidth= 2.0f;
+        
+    }
+    
+    else error = 0;
+    
+    if (self.comment.text.length == 0)
+    {
+        error = 1;
+        //self.comment.placeholder = @"[Phone field Can't be empty]";
+        self.comment.layer.borderColor=[[UIColor redColor]CGColor];
+        self.comment.layer.borderWidth= 2.0f;
+        
+    }
+    
+    else error =0;
+    
+    if (myrating ==0)
+    {
+        ratingError = 1;
+        //[self showAlert:@"Please Give us a Rating"];
+    }
+    
+    else ratingError = 0;
+    
+   
+    
+   
+}
 
 @end
 

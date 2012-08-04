@@ -104,7 +104,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <segue destination="9iE-Jv-zUV" kind="push" identifier="next" id="Jlu-0u-bQS"/>
+                                            <action selector="nextPressed:" destination="2" eventType="touchUpInside" id="pIt-v4-Vuf"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -122,6 +122,7 @@
                         <outlet property="userEmail" destination="Vaz-to-Ay0" id="jXf-8s-Oru"/>
                         <outlet property="userName" destination="Xsj-w2-b9T" id="IdX-BV-GyL"/>
                         <outlet property="userPhone" destination="gKm-54-pi9" id="ows-jw-51x"/>
+                        <segue destination="9iE-Jv-zUV" kind="push" identifier="next" id="xpF-i8-Hfn"/>
                     </connections>
                 </viewController>
             </objects>
@@ -301,6 +302,8 @@
         <class className="MainViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MainViewController.h"/>
             <relationships>
+                <relationship kind="action" name="nextPressed:"/>
+                <relationship kind="action" name="togglePopover:"/>
                 <relationship kind="outlet" name="comment" candidateClass="UITextView"/>
                 <relationship kind="outlet" name="nextButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="rateView" candidateClass="RateView"/>

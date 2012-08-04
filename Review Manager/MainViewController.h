@@ -25,5 +25,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *nextButton;
 @property(nonatomic) UserData *userdata;
 
+- (IBAction)nextPressed:(id)sender;
 
 @end
