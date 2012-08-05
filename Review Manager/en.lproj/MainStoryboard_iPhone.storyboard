@@ -303,7 +303,6 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MainViewController.h"/>
             <relationships>
                 <relationship kind="action" name="nextPressed:"/>
-                <relationship kind="action" name="togglePopover:"/>
                 <relationship kind="outlet" name="comment" candidateClass="UITextView"/>
                 <relationship kind="outlet" name="nextButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="rateView" candidateClass="RateView"/>

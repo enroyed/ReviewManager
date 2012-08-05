@@ -18,6 +18,8 @@
 
 @end
 int a1=0,a2=0,a3=0,a4=0,a5=0; //answers //
+NSString *ans1,*ans2,*ans3,*ans4,*ans5;
+NSString *branchName;
 @implementation QuestionsViewController
 @synthesize firstQuestion;
 @synthesize secondQuestion;
@@ -43,7 +45,8 @@ int a1=0,a2=0,a3=0,a4=0,a5=0; //answers //
 	// Do any additional setup after loading the view.
    // [self loadQuestions];
     
-    NSLog(@"%@",userData.userName); //working //
+   // NSLog(@"%@",userData.userName); //working //
+    [self loadDataFromPlist];
     
 
    
@@ -242,6 +245,7 @@ int a1=0,a2=0,a3=0,a4=0,a5=0; //answers //
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+/*
 -(NSMutableString *) convertAnsToString{
     NSMutableString *answers  = [[NSMutableString alloc]init];
     [answers insertString:[NSString stringWithFormat:@"%d",a1] atIndex:0];
@@ -258,15 +262,79 @@ int a1=0,a2=0,a3=0,a4=0,a5=0; //answers //
     
     
 }
+ */
+
+-(void) loadDataFromPlist{
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask, YES);
+    // get documents path
+    NSString *documentsPath = [paths objectAtIndex:0];
+    // get the path to our Data/plist file
+    NSString *plistPath = [documentsPath stringByAppendingPathComponent:@"Data.plist"];
+    
+    // check to see if Data.plist exists in documents
+    if (![[NSFileManager defaultManager] fileExistsAtPath:plistPath])
+    {
+        // if not in documents, get property list from main bundle
+        plistPath = [[NSBundle mainBundle] pathForResource:@"Data" ofType:@"plist"];
+    }
+    
+    // read property list into memory as an NSData object
+    NSData *plistXML = [[NSFileManager defaultManager] contentsAtPath:plistPath];
+    NSString *errorDesc = nil;
+    NSPropertyListFormat format;
+    // convert static property liost into dictionary object
+    NSDictionary *temp = (NSDictionary *)[NSPropertyListSerialization propertyListFromData:plistXML mutabilityOption:NSPropertyListMutableContainersAndLeaves format:&format errorDescription:&errorDesc];
+    if (!temp)
+    {
+        NSLog(@"Error reading plist: %@, format: %d", errorDesc, format);
+    }
+    // assign values
+    branchName = [temp objectForKey:@"hotel"];
+    //self.phoneNumbers = [NSMutableArray arrayWithArray:[temp objectForKey:@"Phones"]];
+    // display values
+    //nameEntered.text = personName;
+    //homePhone.text = [phoneNumbers objectAtIndex:0];
+    //workPhone.text = [phoneNumbers objectAtIndex:1];
+    //cellPhone.text = [phoneNumbers objectAtIndex:2];
+    //NSLog(@"%@",branchName);
+}
+
+-(void) convertAnsToString{
+    ans1 = [NSString stringWithFormat:@"%d",a1];
+    ans2 = [NSString stringWithFormat:@"%d",a2];
+    ans3 = [NSString stringWithFormat:@"%d",a3];
+    ans4 = [NSString stringWithFormat:@"%d",a4];
+    ans5 = [NSString stringWithFormat:@"%d",a5];
+    
+    
+}
+
+
+
 
 - (IBAction)submitData:(id)sender {
-    self.userData.answers = [self convertAnsToString];
-    NSLog(@"%@,%@,%@,%@,%@,%@,%d",self.userData.userName,self.userData.userCity,self.userData.userEmail,self.userData.userPhone,self.userData.userComment,self.userData.answers,self.userData.rating);
-    NSURL *url = [NSURL URLWithString:@"http://localhost/php/testPost.php"];
+    //self.userData.answers = [self convertAnsToString];
+    //NSLog(@"%@,%@,%@,%@,%@,%@,%@",self.userData.userName,self.userData.userCity,self.userData.userEmail,self.userData.userPhone,self.userData.userComment,self.userData.answers,self.userData.rating);
+    [self convertAnsToString];
+    NSURL *url = [NSURL URLWithString:@"http://review.reputationtec.com/ios.php"];
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
     [request addPostValue:self.userData.userName forKey:@"name"];
+    [request addPostValue:self.userData.userEmail forKey:@"email"];
+    [request addPostValue:self.userData.userCity forKey:@"city"];
+    [request addPostValue:self.userData.userPhone forKey:@"phone"];
+    [request addPostValue:self.userData.rating forKey:@"crating"];
+    [request addPostValue:self.userData.userComment forKey:@"review"];
+    [request addPostValue:branchName forKey:@"branch"];
+    [request addPostValue:ans1 forKey:@"q1"];
+    [request addPostValue:ans2 forKey:@"q2"];
+    [request addPostValue:ans3 forKey:@"q3"];
+    [request addPostValue:ans4 forKey:@"q4"];
+    [request addPostValue:ans5 forKey:@"q5"];
+    [request addPostValue:@"iOS" forKey:@"from"];
+    
     [request setDelegate:self];
-    [request startSynchronous];
+    [request startAsynchronous];
     
     
 
