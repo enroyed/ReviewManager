@@ -11,7 +11,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "ASIFormDataRequest.h"
 #import "MainViewController.h"
-#import "MBProgressHUD.h"
+
 
 
 @interface QuestionsViewController ()
@@ -245,24 +245,7 @@ NSString *branchName;
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-/*
--(NSMutableString *) convertAnsToString{
-    NSMutableString *answers  = [[NSMutableString alloc]init];
-    [answers insertString:[NSString stringWithFormat:@"%d",a1] atIndex:0];
-    [answers insertString:[NSString stringWithFormat:@"%d",a2] atIndex:1];
-    [answers insertString:[NSString stringWithFormat:@"%d",a3] atIndex:2];
-    [answers insertString:[NSString stringWithFormat:@"%d",a4] atIndex:3];
-    [answers insertString:[NSString stringWithFormat:@"%d",a5] atIndex:4];
-    
-    
-    return answers;
-    
-    
-    
-    
-    
-}
- */
+
 
 -(void) loadDataFromPlist{
     
@@ -334,7 +317,7 @@ NSString *branchName;
     [request addPostValue:@"iOS" forKey:@"from"];
     
     [request setDelegate:self];
-    [request startAsynchronous];
+    [request startSynchronous];
     
     
 
@@ -364,26 +347,16 @@ NSString *branchName;
 }
 
 - (void)requestFinished:(ASIHTTPRequest *)request {
-    NSLog(@"Response %d ==> %@", request.responseStatusCode, [request responseString]);
-    MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
-	[self.navigationController.view addSubview:HUD];
-	
-	// The sample image is based on the work by http://www.pixelpressicons.com, http://creativecommons.org/licenses/by/2.5/ca/
-	// Make the customViews 37 by 37 pixels for best results (those are the bounds of the build-in progress indicators)
-	HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
-	
-	// Set custom view mode
-	HUD.mode = MBProgressHUDModeCustomView;
-	
-	HUD.delegate = self;
-	HUD.labelText = @"Completed";
-	
-	[HUD show:YES];
-	[HUD hide:YES afterDelay:3];
-    [self loadHomeView];
+   
+    
+    UIAlertView *successAlert = [[UIAlertView alloc]initWithTitle:@"Success!!" message:@"Thanks for your Review" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK",nil];
+    [successAlert show];
+    
+    
+    //[self loadHomeView];
 }
 -(void) showAlert:(NSString *) alert{
-    UIAlertView *myAlert = [[UIAlertView alloc]initWithTitle:@"Error" message:alert delegate:self cancelButtonTitle:nil otherButtonTitles:@"ok",nil];
+    UIAlertView *myAlert = [[UIAlertView alloc]initWithTitle:@"Error" message:alert delegate:nil cancelButtonTitle:nil otherButtonTitles:@"ok",nil];
     [myAlert show];
     
 }
@@ -393,5 +366,12 @@ NSString *branchName;
     NSError *error = [request error];
     //NSLog(@"%@",error.localizedDescription);
     [self showAlert:error.localizedDescription];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 0)
+    {
+        [self loadHomeView];
+    }
 }
 @end
